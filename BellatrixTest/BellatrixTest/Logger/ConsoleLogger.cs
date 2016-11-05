@@ -2,33 +2,30 @@
 
 namespace BellatrixTest.Logger
 {
-    public class ConsoleLogger : ILogger
+    public class ConsoleLogger : AbstractLogger
     {
-        private bool logMessages;
-        private bool logWarnings;
-        private bool logErrors;
+        public ConsoleLogger(params LogMessageType[] messageTypes)
+            : base(messageTypes)
+        { }
 
-        public ConsoleLogger(bool logMessages, bool logWarnings, bool logErrors)
+        protected override void WriteToLog(string message, LogMessageType messageType)
         {
-            this.logMessages = logMessages;
-            this.logWarnings = logWarnings;
-            this.logErrors = logErrors;
-        }
+            if (!ShouldBeLogged(messageType))
+                return;
 
-        public void LogMessage(string message, LogMessageType messageType)
-        {
-            if (messageType == LogMessageType.Error && logErrors)
+            if (messageType == LogMessageType.Error)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
             }
-            if (messageType == LogMessageType.Warning && logWarnings)
+            if (messageType == LogMessageType.Warning)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
             }
-            if (messageType == LogMessageType.Message && logMessages)
+            if (messageType == LogMessageType.Message)
             {
                 Console.ForegroundColor = ConsoleColor.White;
             }
+
             Console.WriteLine(DateTime.Now.ToShortDateString() + message);
         }
     }

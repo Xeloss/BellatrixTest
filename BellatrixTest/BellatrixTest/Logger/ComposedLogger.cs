@@ -11,7 +11,7 @@ namespace BellatrixTest.Logger
             this.loggers = new List<ILogger>();
         }
         public ComposedLogger(params ILogger[] loggers)
-            : base()
+            : this()
         {
             this.loggers.AddRange(loggers);
         }

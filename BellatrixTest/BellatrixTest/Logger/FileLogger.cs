@@ -4,20 +4,13 @@ using System.IO;
 
 namespace BellatrixTest.Logger
 {
-    public class FileLogger : ILogger
+    public class FileLogger : AbstractLogger
     {
-        private bool logMessages;
-        private bool logWarnings;
-        private bool logErrors;
+        public FileLogger(params LogMessageType[] messageTypes)
+            : base(messageTypes)
+        { }
 
-        public FileLogger(bool logMessages, bool logWarnings, bool logErrors)
-        {
-            this.logMessages = logMessages;
-            this.logWarnings = logWarnings;
-            this.logErrors = logErrors;
-        }
-
-        public void LogMessage(string message, LogMessageType messageType)
+        protected override void WriteToLog(string message, LogMessageType messageType)
         {
             string logFileContent = "";
 
@@ -25,15 +18,15 @@ namespace BellatrixTest.Logger
             {
                 logFileContent = File.ReadAllText(ConfigurationManager.AppSettings["LogFileDirectory"] + "LogFile" + DateTime.Now.ToShortDateString() + ".txt");
             }
-            if (messageType == LogMessageType.Error && this.logErrors)
+            if (messageType == LogMessageType.Error)
             {
                 logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
             }
-            if (messageType == LogMessageType.Warning && this.logWarnings)
+            if (messageType == LogMessageType.Warning)
             {
                 logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
             }
-            if (messageType == LogMessageType.Message && this.logMessages)
+            if (messageType == LogMessageType.Message)
             {
                 logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
             }
