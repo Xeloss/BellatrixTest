@@ -10,10 +10,11 @@
     {
         private bool _logToFile;
         private bool _logToConsole;
+        private bool LogToDatabase;
+
         private bool _logMessage;
         private bool _logWarning;
         private bool _logError;
-        private bool LogToDatabase;
 
         public JobLogger(bool logToFile, bool logToConsole, bool logToDatabase, bool logMessage, bool logWarning, bool logError)
         {

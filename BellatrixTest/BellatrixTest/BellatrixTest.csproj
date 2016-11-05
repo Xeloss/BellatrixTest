@@ -45,6 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobLogger.cs" />
+    <Compile Include="Logger\DatabaseLogger.cs" />
+    <Compile Include="Logger\ComposedLogger.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
+    <Compile Include="Logger\Enums\MessageType.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
+    <Compile Include="Logger\Interfaces\ILogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
