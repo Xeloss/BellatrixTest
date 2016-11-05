@@ -10,10 +10,9 @@ namespace BellatrixTest
     {
         static void Main(string[] args)
         {
-            new JobLogger(true, true, true, false, false, true);
+            var logger = new JobLogger(true, true, true, false, false, true);
 
-            JobLogger.LogMessage("mensaje", true, true, false);
-
+            logger.LogMessage("mensaje", true, true, false);
         }
     }
 }

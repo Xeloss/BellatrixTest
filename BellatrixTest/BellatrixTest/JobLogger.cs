@@ -8,13 +8,12 @@
 
     public class JobLogger
     {
-        private static bool _logToFile;
-        private static bool _logToConsole;
-        private static bool _logMessage;
-        private static bool _logWarning;
-        private static bool _logError;
-        private static bool LogToDatabase;
-        private bool _initialized;
+        private bool _logToFile;
+        private bool _logToConsole;
+        private bool _logMessage;
+        private bool _logWarning;
+        private bool _logError;
+        private bool LogToDatabase;
 
         public JobLogger(bool logToFile, bool logToConsole, bool logToDatabase, bool logMessage, bool logWarning, bool logError)
         {
@@ -26,7 +25,7 @@
             _logToConsole = logToConsole;
         }
 
-        public static void LogMessage(string message_s, bool message, bool warning, bool error)
+        public void LogMessage(string message_s, bool message, bool warning, bool error)
         {
             message_s.Trim();
             if (message_s == null || message_s.Length == 0)
@@ -38,32 +37,33 @@
             {
                 throw new Exception("Invalid configuration");
             }
-            //   true           false            false            true        true      false
+
             if ((!_logError && !_logMessage && !_logWarning) || (!message && !warning && !error))
             {
                 throw new Exception("Error or Warning or Message must be specified");
             }
 
+            #region Database Loggin
             SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
             connection.Open();
 
             int t = 0;
-            if (message && _logMessage) // true && false
+            if (message && _logMessage)
             {
                 t = 1;
             }
-            if (error && _logError)   // false && true
+            if (error && _logError)
             {
                 t = 2;
             }
-            if (warning && _logWarning) //true && false
+            if (warning && _logWarning)
             {
                 t = 3;
             }
 
             SqlCommand command = new SqlCommand("Insert into Log Values('" + message + "', " + t.ToString() + ")");
             command.ExecuteNonQuery();
-
+            #endregion
 
             #region File Logging
             string logFileContent = "";
