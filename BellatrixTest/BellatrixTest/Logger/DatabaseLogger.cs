@@ -6,13 +6,17 @@ namespace BellatrixTest.Logger
 {
     public class DatabaseLogger : AbstractLogger
     {
-        public DatabaseLogger(params LogMessageType[] messageTypes)
+        private string connectionString;
+
+        public DatabaseLogger(string connectionString, params LogMessageType[] messageTypes)
             : base(messageTypes)
-        { }
+        {
+            this.connectionString = connectionString;
+        }
 
         protected override void WriteToLog(string message, LogMessageType messageType)
         {
-            SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+            SqlConnection connection = new SqlConnection(this.connectionString);
             connection.Open();
 
             int t = 0;

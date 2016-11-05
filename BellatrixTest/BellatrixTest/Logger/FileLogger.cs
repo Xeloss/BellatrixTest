@@ -6,17 +6,21 @@ namespace BellatrixTest.Logger
 {
     public class FileLogger : AbstractLogger
     {
-        public FileLogger(params LogMessageType[] messageTypes)
+        private string filePath;
+
+        public FileLogger(string filePath, params LogMessageType[] messageTypes)
             : base(messageTypes)
-        { }
+        {
+            this.filePath = filePath;
+        }
 
         protected override void WriteToLog(string message, LogMessageType messageType)
         {
             string logFileContent = "";
 
-            if (!File.Exists(ConfigurationManager.AppSettings["LogFileDirectory"] + "LogFile" + DateTime.Now.ToShortDateString() + ".txt"))
+            if (!File.Exists(filePath + "LogFile" + DateTime.Now.ToShortDateString() + ".txt"))
             {
-                logFileContent = File.ReadAllText(ConfigurationManager.AppSettings["LogFileDirectory"] + "LogFile" + DateTime.Now.ToShortDateString() + ".txt");
+                logFileContent = File.ReadAllText(filePath + "LogFile" + DateTime.Now.ToShortDateString() + ".txt");
             }
             if (messageType == LogMessageType.Error)
             {
@@ -31,7 +35,7 @@ namespace BellatrixTest.Logger
                 logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
             }
 
-            File.WriteAllText(System.Configuration.ConfigurationManager.AppSettings["LogFileDirectory"] + "LogFile" + DateTime.Now.ToShortDateString() + ".txt", logFileContent);
+            File.WriteAllText(filePath + "LogFile" + DateTime.Now.ToShortDateString() + ".txt", logFileContent);
         }
     }
 }
