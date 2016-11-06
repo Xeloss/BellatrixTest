@@ -17,7 +17,7 @@ namespace BellatrixTest.Logger
 
             Console.ForegroundColor = GetForegroundColorFor(messageType);
 
-            Console.WriteLine(DateTime.Now.ToShortDateString() + ": " + message);
+            Console.WriteLine(string.Format("{0}: {1}", DateTime.Now, message));
 
             Console.ForegroundColor = defaultColor;
         }

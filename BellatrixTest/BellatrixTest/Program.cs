@@ -11,13 +11,11 @@ namespace BellatrixTest
     {
         static void Main(string[] args)
         {
-            var log = new ConsoleLogger(LogMessageType.Message, LogMessageType.Warning, LogMessageType.Error);
-            log.LogMessage("Logger text", LogMessageType.Error);
-            Console.WriteLine("Application text");
-            log.LogMessage("Some message", LogMessageType.Warning);
-            Console.WriteLine("Application text");
-            log.LogMessage("Some message", LogMessageType.Message);
-            Console.WriteLine("Application text");
+            var log = new FileLogger(@"c:\", LogMessageType.Message, LogMessageType.Warning, LogMessageType.Error);
+
+            log.LogMessage("Error text", LogMessageType.Error);
+            log.LogMessage("Warning message", LogMessageType.Warning);
+            log.LogMessage("Message message", LogMessageType.Message);
 
             Console.ReadKey();
         }

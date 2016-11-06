@@ -8,34 +8,18 @@ namespace BellatrixTest.Logger
     {
         private string filePath;
 
-        public FileLogger(string filePath, params LogMessageType[] messageTypes)
+        public FileLogger(string logDirectory, params LogMessageType[] messageTypes)
             : base(messageTypes)
         {
-            this.filePath = filePath;
+            this.filePath = string.Format(@"{0}\{1}_{2}.txt", logDirectory.TrimEnd('\\'), "LogFile", DateTime.Now.ToString("yyyyMMdd"));
         }
 
         protected override void WriteToLog(string message, LogMessageType messageType)
         {
-            string logFileContent = "";
-
-            if (!File.Exists(filePath + "LogFile" + DateTime.Now.ToShortDateString() + ".txt"))
+            using (var fileWriter = File.AppendText(filePath))
             {
-                logFileContent = File.ReadAllText(filePath + "LogFile" + DateTime.Now.ToShortDateString() + ".txt");
+                fileWriter.WriteLine(string.Format("{0}: {1}", DateTime.Now, message));
             }
-            if (messageType == LogMessageType.Error)
-            {
-                logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
-            }
-            if (messageType == LogMessageType.Warning)
-            {
-                logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
-            }
-            if (messageType == LogMessageType.Message)
-            {
-                logFileContent = logFileContent + DateTime.Now.ToShortDateString() + message;
-            }
-
-            File.WriteAllText(filePath + "LogFile" + DateTime.Now.ToShortDateString() + ".txt", logFileContent);
         }
     }
 }
