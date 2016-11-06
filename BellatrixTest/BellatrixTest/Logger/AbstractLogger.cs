@@ -7,6 +7,15 @@ namespace BellatrixTest.Logger
     {
         protected IEnumerable<LogMessageType> MessageTypesToBeLogged;
 
+        public AbstractLogger()
+        {
+            this.MessageTypesToBeLogged = new LogMessageType[] {
+                LogMessageType.Error,
+                LogMessageType.Warning,
+                LogMessageType.Message
+            };
+        }
+
         public AbstractLogger(params LogMessageType[] messageTypes)
         {
             this.MessageTypesToBeLogged = messageTypes;

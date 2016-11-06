@@ -15,6 +15,11 @@ namespace BellatrixTest.Logger
         {
             this.loggers.AddRange(loggers);
         }
+        public ComposedLogger(IEnumerable<ILogger> loggers)
+            : this()
+        {
+            this.loggers.AddRange(loggers);
+        }
 
         public void LogMessage(string message, LogMessageType messageType)
         {

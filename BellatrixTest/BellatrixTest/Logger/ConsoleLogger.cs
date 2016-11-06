@@ -4,6 +4,10 @@ namespace BellatrixTest.Logger
 {
     public class ConsoleLogger : AbstractLogger
     {
+        public ConsoleLogger()
+            : base()
+        { }
+
         public ConsoleLogger(params LogMessageType[] messageTypes)
             : base(messageTypes)
         { }

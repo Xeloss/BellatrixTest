@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JobLogger.cs" />
+    <Compile Include="Logger\Builder\LoggerBuilder.cs" />
     <Compile Include="Logger\DatabaseLogger.cs" />
     <Compile Include="Logger\ComposedLogger.cs" />
     <Compile Include="Logger\FileLogger.cs" />

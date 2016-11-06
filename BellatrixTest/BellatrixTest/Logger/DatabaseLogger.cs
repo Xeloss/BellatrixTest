@@ -8,6 +8,12 @@ namespace BellatrixTest.Logger
     {
         private string connectionString;
 
+        public DatabaseLogger(string connectionString)
+            : base()
+        {
+            this.connectionString = connectionString;
+        }
+
         public DatabaseLogger(string connectionString, params LogMessageType[] messageTypes)
             : base(messageTypes)
         {
