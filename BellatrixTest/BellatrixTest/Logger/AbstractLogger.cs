@@ -5,7 +5,7 @@ namespace BellatrixTest.Logger
 {
     public abstract class AbstractLogger : ILogger
     {
-        protected IEnumerable<LogMessageType> MessageTypesToBeLogged;
+        public IEnumerable<LogMessageType> MessageTypesToBeLogged { get; private set; }
 
         public AbstractLogger()
         {

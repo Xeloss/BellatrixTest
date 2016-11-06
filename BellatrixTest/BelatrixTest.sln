@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelatrixTest", "BellatrixTe
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BelatrixTest.LogDatabase", "BelatrixTest.LogDatabase\BelatrixTest.LogDatabase.sqlproj", "{0FC54517-C100-4FD0-A099-B96ACEDA5F60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BelatrixTest.Tests", "BelatrixTest.Tests\BelatrixTest.Tests.csproj", "{16461B6B-CC46-4CB6-9E61-BAD4919FDBAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{0FC54517-C100-4FD0-A099-B96ACEDA5F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC54517-C100-4FD0-A099-B96ACEDA5F60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FC54517-C100-4FD0-A099-B96ACEDA5F60}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{16461B6B-CC46-4CB6-9E61-BAD4919FDBAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16461B6B-CC46-4CB6-9E61-BAD4919FDBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16461B6B-CC46-4CB6-9E61-BAD4919FDBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16461B6B-CC46-4CB6-9E61-BAD4919FDBAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
