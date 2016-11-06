@@ -4,8 +4,8 @@
     {
         Message = 1,
 
-        Warning = 2,
+        Error = 2,
 
-        Error = 3
+        Warning = 3
     }
 }

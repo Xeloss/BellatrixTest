@@ -16,25 +16,20 @@ namespace BellatrixTest.Logger
 
         protected override void WriteToLog(string message, LogMessageType messageType)
         {
-            SqlConnection connection = new SqlConnection(this.connectionString);
-            connection.Open();
+            using (SqlConnection connection = new SqlConnection(this.connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
 
-            int t = 0;
-            if (messageType == LogMessageType.Message)
-            {
-                t = 1;
-            }
-            if (messageType == LogMessageType.Error)
-            {
-                t = 2;
-            }
-            if (messageType == LogMessageType.Warning)
-            {
-                t = 3;
-            }
+                var type = (int)messageType;
 
-            SqlCommand command = new SqlCommand("Insert into Log Values('" + message + "', " + t.ToString() + ")");
-            command.ExecuteNonQuery();
+                command.CommandText = "INSERT INTO Log(Message, Type, Timestamp) VALUES(@message, @type, @ts)";
+                command.Parameters.AddWithValue("message", message);
+                command.Parameters.AddWithValue("type", type);
+                command.Parameters.AddWithValue("ts", DateTime.Now);
+
+                command.ExecuteNonQuery();
+            }
         }
     }
 }
