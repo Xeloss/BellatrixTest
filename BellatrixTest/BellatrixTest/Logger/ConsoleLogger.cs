@@ -14,9 +14,6 @@ namespace BellatrixTest.Logger
 
         protected override void WriteToLog(string message, LogMessageType messageType)
         {
-            if (!ShouldBeLogged(messageType))
-                return;
-
             var defaultColor = Console.ForegroundColor;
 
             Console.ForegroundColor = GetForegroundColorFor(messageType);
