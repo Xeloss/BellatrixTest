@@ -13,20 +13,25 @@ namespace BellatrixTest.Logger
             if (!ShouldBeLogged(messageType))
                 return;
 
-            if (messageType == LogMessageType.Error)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
-            if (messageType == LogMessageType.Warning)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            }
-            if (messageType == LogMessageType.Message)
-            {
-                Console.ForegroundColor = ConsoleColor.White;
-            }
+            var defaultColor = Console.ForegroundColor;
 
-            Console.WriteLine(DateTime.Now.ToShortDateString() + message);
+            Console.ForegroundColor = GetForegroundColorFor(messageType);
+
+            Console.WriteLine(DateTime.Now.ToShortDateString() + ": " + message);
+
+            Console.ForegroundColor = defaultColor;
+        }
+
+        private ConsoleColor GetForegroundColorFor(LogMessageType type)
+        {
+            switch (type)
+            {
+                case LogMessageType.Error: return ConsoleColor.Red;
+                case LogMessageType.Warning: return ConsoleColor.Yellow;
+                case LogMessageType.Message: 
+                default:
+                    return ConsoleColor.White;
+            }
         }
     }
 }

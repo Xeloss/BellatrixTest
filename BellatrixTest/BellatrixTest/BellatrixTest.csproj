@@ -54,8 +54,6 @@
     <Compile Include="Logger\Interfaces\ILogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\AppConfigurationProvider.cs" />
-    <Compile Include="Settings\IConfigurationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
