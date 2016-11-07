@@ -5,36 +5,37 @@ using BellatrixTest.Logger;
 using System.Linq;
 using System.IO;
 using System.Text;
+using BelatrixTest.Tests.Utils;
 
 namespace BelatrixTest.Tests
 {
     [TestClass]
     public class FileLoggerTest
     {
-        private static string TestDirectory;
+        private static LogFileHelper fileHelper;
 
         [ClassInitialize]
         public static void ClassSetUp(TestContext context)
         {
-            TestDirectory = context.TestRunDirectory;
+            fileHelper = new LogFileHelper(context.TestRunDirectory);
         }        
         
         [TestCleanup]
         public void TestCleanUp()
         {
-            File.Delete(GetLogFilePath());
+            fileHelper.DeleteLogFile();
         }
 
         [TestMethod]
         public void DefaultConstructorShouldLogAllKindOfMessages()
         {
-            var logger = new FileLogger(TestDirectory);
+            var logger = new FileLogger(fileHelper.FileDirectory);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsTrue(logFile.Contains("Error Message"));
             Assert.IsTrue(logFile.Contains("Warning Message"));
@@ -44,13 +45,13 @@ namespace BelatrixTest.Tests
         [TestMethod]
         public void WhenSpecifingToOnlyLogErrorShouldOnlyLogErrors()
         {
-            var logger = new FileLogger(TestDirectory, LogMessageType.Error);
+            var logger = new FileLogger(fileHelper.FileDirectory, LogMessageType.Error);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsTrue(logFile.Contains("Error Message"));
             Assert.IsFalse(logFile.Contains("Warning Message"));
@@ -60,13 +61,13 @@ namespace BelatrixTest.Tests
         [TestMethod]
         public void WhenSpecifingToOnlyLogWarningShouldOnlyLogWarning()
         {
-            var logger = new FileLogger(TestDirectory, LogMessageType.Warning);
+            var logger = new FileLogger(fileHelper.FileDirectory, LogMessageType.Warning);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsFalse(logFile.Contains("Error Message"));
             Assert.IsTrue(logFile.Contains("Warning Message"));
@@ -76,13 +77,13 @@ namespace BelatrixTest.Tests
         [TestMethod]
         public void WhenSpecifingToOnlyLogMessagesShouldOnlyLogMessages()
         {
-            var logger = new FileLogger(TestDirectory, LogMessageType.Message);
+            var logger = new FileLogger(fileHelper.FileDirectory, LogMessageType.Message);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsFalse(logFile.Contains("Error Message"));
             Assert.IsFalse(logFile.Contains("Warning Message"));
@@ -92,13 +93,13 @@ namespace BelatrixTest.Tests
         [TestMethod]
         public void WhenSpecifingToOnlyLogMessagesAndWarningsShouldOnlyLogThoseTypeOfMessages()
         {
-            var logger = new FileLogger(TestDirectory, LogMessageType.Message, LogMessageType.Warning);
+            var logger = new FileLogger(fileHelper.FileDirectory, LogMessageType.Message, LogMessageType.Warning);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsFalse(logFile.Contains("Error Message"));
             Assert.IsTrue(logFile.Contains("Warning Message"));
@@ -108,13 +109,13 @@ namespace BelatrixTest.Tests
         [TestMethod]
         public void WhenSpecifingToOnlyLogMessagesAndErrorsShouldOnlyLogThoseTypeOfMessages()
         {
-            var logger = new FileLogger(TestDirectory, LogMessageType.Message, LogMessageType.Error);
+            var logger = new FileLogger(fileHelper.FileDirectory, LogMessageType.Message, LogMessageType.Error);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsTrue(logFile.Contains("Error Message"));
             Assert.IsFalse(logFile.Contains("Warning Message"));
@@ -124,28 +125,17 @@ namespace BelatrixTest.Tests
         [TestMethod]
         public void WhenSpecifingToOnlyLogWarningsAndErrorsShouldOnlyLogThoseTypeOfMessages()
         {
-            var logger = new FileLogger(TestDirectory, LogMessageType.Warning, LogMessageType.Error);
+            var logger = new FileLogger(fileHelper.FileDirectory, LogMessageType.Warning, LogMessageType.Error);
 
             logger.LogMessage("Error Message", LogMessageType.Error);
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var logFile = GetLogFileContent();
+            var logFile = fileHelper.GetLogFileContent();
 
             Assert.IsTrue(logFile.Contains("Error Message"));
             Assert.IsTrue(logFile.Contains("Warning Message"));
             Assert.IsFalse(logFile.Contains("Info Message"));
-        }
-
-        private string GetLogFilePath()
-        {
-            return Directory.GetFiles(TestDirectory)
-                            .FirstOrDefault(name => name.Contains("LogFile"));
-        }
-
-        private string GetLogFileContent()
-        {
-            return File.ReadAllText(GetLogFilePath());
         }
     }
 }

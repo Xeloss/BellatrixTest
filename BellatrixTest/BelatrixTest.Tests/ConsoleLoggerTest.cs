@@ -5,34 +5,23 @@ using BellatrixTest.Logger;
 using System.Linq;
 using System.IO;
 using System.Text;
+using BelatrixTest.Tests.Utils;
 
 namespace BelatrixTest.Tests
 {
     [TestClass]
     public class ConsoleLoggerTest
     {
-        private static TextWriter defaultConsoleOut;
-        private static TextWriter consoleWriter;
-        private static StringBuilder consoleOutput;
-
         [TestInitialize]
         public void TestSetUp()
         {
-            defaultConsoleOut = Console.Out;
-            consoleOutput = new StringBuilder();
-            consoleWriter = new StringWriter(consoleOutput);
-            Console.SetOut(consoleWriter);
+            ConsoleHelper.SetUpTestConsole();
         }
         
         [TestCleanup]
         public void TestCleanUp()
         {
-            consoleWriter.Flush();
-            consoleOutput.Clear();
-            Console.Clear();
-
-            consoleWriter.Dispose();
-            Console.SetOut(defaultConsoleOut);
+            ConsoleHelper.RestoreDefaultConsole();
         }
 
         [TestMethod]
@@ -44,7 +33,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsTrue(consoleOut.Contains("Error Message"));
             Assert.IsTrue(consoleOut.Contains("Warning Message"));
@@ -60,7 +49,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsTrue(consoleOut.Contains("Error Message"));
             Assert.IsFalse(consoleOut.Contains("Warning Message"));
@@ -76,7 +65,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsFalse(consoleOut.Contains("Error Message"));
             Assert.IsTrue(consoleOut.Contains("Warning Message"));
@@ -92,7 +81,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsFalse(consoleOut.Contains("Error Message"));
             Assert.IsFalse(consoleOut.Contains("Warning Message"));
@@ -108,7 +97,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsFalse(consoleOut.Contains("Error Message"));
             Assert.IsTrue(consoleOut.Contains("Warning Message"));
@@ -124,7 +113,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsTrue(consoleOut.Contains("Error Message"));
             Assert.IsFalse(consoleOut.Contains("Warning Message"));
@@ -140,7 +129,7 @@ namespace BelatrixTest.Tests
             logger.LogMessage("Warning Message", LogMessageType.Warning);
             logger.LogMessage("Info Message", LogMessageType.Message);
 
-            var consoleOut = consoleOutput.ToString();
+            var consoleOut = ConsoleHelper.ReadOutput();
 
             Assert.IsTrue(consoleOut.Contains("Error Message"));
             Assert.IsTrue(consoleOut.Contains("Warning Message"));
