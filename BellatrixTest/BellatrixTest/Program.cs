@@ -22,8 +22,8 @@ namespace BellatrixTest
                                             .Build();
 
             logger.LogMessage("Error text", LogMessageType.Error);
-            logger.LogMessage("Warning message", LogMessageType.Warning);
-            logger.LogMessage("Message message", LogMessageType.Message);
+            logger.LogMessage("Warning text", LogMessageType.Warning);
+            logger.LogMessage("Message text", LogMessageType.Message);
 
             Console.ReadKey();
         }
